@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView {
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         checkPermission()
         CoroutineScope(Dispatchers.Main).launch {
-            mainViewModel.initListWeatherModel("London")
+            mainViewModel.initListWeatherModel("Vladikavkaz")
         }
         mainViewModel.liveDataWeatherModel.observe(this) {
             binding.cityTextView.text = it.location.name
@@ -66,10 +66,6 @@ class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView {
             }
         }
 
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun recyclerViewInit(list: List<RecyclerViewModel>) {

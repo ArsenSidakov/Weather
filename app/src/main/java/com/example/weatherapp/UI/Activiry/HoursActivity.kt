@@ -7,7 +7,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.Repository.Adapters.ListenerAdapter
 import com.example.weatherapp.Repository.Adapters.WeatherDayAdapter
 import com.example.weatherapp.Repository.Retrofit.RecyclerViewModel
-import com.example.weatherapp.UI.Interface.InitRecyclerView
+import com.example.weatherapp.UI.ActivityTools.InitRecyclerView
 import com.example.weatherapp.databinding.ActivityHoursBinding
 
 class HoursActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView {

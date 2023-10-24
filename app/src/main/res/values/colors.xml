@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="blueWeather">#66E672F1</color>
-    <color name="YelowWeather">#669A66FA</color>
+    <color name="CardWeather">#66E672F1</color>
+    <color name="ItemsWeather">#669A66FA</color>
+    <color name="ButtonWeather">#B3D640EF</color>
 </resources>

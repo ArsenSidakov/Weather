@@ -1,14 +1,13 @@
 package com.example.weatherapp.UI.Activiry
 
 import android.Manifest
-import android.app.Instrumentation.ActivityResult
 import android.content.Context
 import android.content.Intent
-import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,12 +19,14 @@ import com.example.weatherapp.Repository.Adapters.ListenerAdapter
 import com.example.weatherapp.Repository.Adapters.WeatherDayAdapter
 import com.example.weatherapp.Repository.Extencion.isPermissionGranted
 import com.example.weatherapp.Repository.Retrofit.RecyclerViewModel
-import com.example.weatherapp.UI.Interface.InitRecyclerView
+import com.example.weatherapp.UI.ActivityTools.DialogManager
+import com.example.weatherapp.UI.ActivityTools.InitRecyclerView
+import com.example.weatherapp.UI.ActivityTools.LocalPermission
 import com.example.weatherapp.ViewModel.MainViewModel
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -33,19 +34,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView {
+class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView, LocalPermission {
     lateinit var mainViewModel: MainViewModel
     lateinit var binding: ActivityMainBinding
     private lateinit var adapter: WeatherDayAdapter
     private lateinit var launcherPermission: ActivityResultLauncher<String>
+    lateinit var location: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        location = LocationServices.getFusedLocationProviderClient(this)
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         checkPermission()
-        CoroutineScope(Dispatchers.Main).launch {
-            mainViewModel.initListWeatherModel("Vladikavkaz")
+        checkLocation()
+        getLocation()
+        binding.imSearchCity.setOnClickListener {
+            DialogManager.cityTake(this, object : DialogManager.DialogListener {
+                override fun onClick(name: String?) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        name?.let { it1 -> mainViewModel.initListWeatherModel(it1) }
+                    }
+                }
+            })
         }
         mainViewModel.liveDataWeatherModel.observe(this) {
             binding.cityTextView.text = it.location.name
@@ -65,7 +76,11 @@ class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView {
                 recyclerViewInit(mainViewModel.initDayList(it))
             }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        checkLocation()
     }
 
     override fun recyclerViewInit(list: List<RecyclerViewModel>) {
@@ -93,14 +108,57 @@ class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView {
         }
     }
 
-
-    private fun permissionListener() {
-        launcherPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){
-            Toast.makeText( this,"Permission $it",Toast.LENGTH_SHORT).show()
+    override fun checkLocation() {
+        if (locationEnabled()) {
+            getLocation()
+        } else {
+            DialogManager.locationSetting(this, object : DialogManager.DialogListener {
+                override fun onClick(name: String?) {
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+            })
         }
     }
-    fun checkPermission(){
-        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)){
+
+    override fun locationEnabled(): Boolean {
+        val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    override fun getLocation() {
+        if (!locationEnabled()) {
+            Toast.makeText(this, "Геолокация выключена!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val cancellationToken = CancellationTokenSource()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        location.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, cancellationToken.token)
+            .addOnCompleteListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    mainViewModel.initListWeatherModel("${it.result.latitude},${it.result.longitude}")
+                }
+            }
+
+    }
+
+    override fun permissionListener() {
+        launcherPermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                Toast.makeText(this, "Permission $it", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    override fun checkPermission() {
+        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             permissionListener()
             launcherPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }

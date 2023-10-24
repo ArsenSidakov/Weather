@@ -1,4 +1,4 @@
-package com.example.weatherapp.UI.Interface
+package com.example.weatherapp.UI.ActivityTools
 
 import com.example.weatherapp.Repository.Retrofit.RecyclerViewModel
 

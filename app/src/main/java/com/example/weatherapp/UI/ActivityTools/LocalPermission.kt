@@ -1,4 +1,14 @@
 package com.example.weatherapp.UI.ActivityTools
 
-class LocalPermission {
+interface LocalPermission {
+    fun locationEnabled():Boolean
+
+    fun getLocation()
+
+    fun permissionListener()
+
+    fun checkPermission()
+
+    fun checkLocation()
+
 }

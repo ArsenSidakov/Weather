@@ -9,7 +9,6 @@ import com.example.weatherapp.Repository.Retrofit.RecyclerViewModel
 class MainViewModel : ViewModel(),SaveRetrofitModel {
 
     var liveDataWeatherModel= MutableLiveData<WeatherModel>()
-    var liveDataWeatherModelList= MutableLiveData<List<WeatherModel>>()
     val useRetrofit = UseRetrofit()
 
     override suspend fun initListWeatherModel(city:String) {

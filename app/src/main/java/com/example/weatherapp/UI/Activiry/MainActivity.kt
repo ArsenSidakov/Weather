@@ -57,11 +57,14 @@ class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView, Loc
                     }
                 }
             })
+            binding.imUpdate.setOnClickListener {
+                getLocation()
+            }
         }
         mainViewModel.liveDataWeatherModel.observe(this) {
             binding.cityTextView.text = it.location.name
             binding.countryTextView.text = it.location.country
-            binding.regionTextView.text = it.location.region
+            binding.regionTextView.text = it.location.region.substringAfter(",")
             binding.timeTextView.text = it.location.localtime
             binding.tempTextView.text = it.current.temp_c
             binding.fillingTempTextView.text =
@@ -110,7 +113,6 @@ class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView, Loc
 
     override fun checkLocation() {
         if (locationEnabled()) {
-            getLocation()
         } else {
             DialogManager.locationSetting(this, object : DialogManager.DialogListener {
                 override fun onClick(name: String?) {
@@ -127,7 +129,7 @@ class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView, Loc
 
     override fun getLocation() {
         if (!locationEnabled()) {
-            Toast.makeText(this, "Геолокация выключена!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.location_ON), Toast.LENGTH_SHORT).show()
             return
         }
         val cancellationToken = CancellationTokenSource()
@@ -153,7 +155,7 @@ class MainActivity : AppCompatActivity(), ListenerAdapter, InitRecyclerView, Loc
     override fun permissionListener() {
         launcherPermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-                Toast.makeText(this, "Permission $it", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.permission_ON), Toast.LENGTH_SHORT).show()
             }
     }
 

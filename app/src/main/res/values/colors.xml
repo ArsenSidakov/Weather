@@ -5,4 +5,5 @@
     <color name="CardWeather">#66E672F1</color>
     <color name="ItemsWeather">#669A66FA</color>
     <color name="ButtonWeather">#B3D640EF</color>
+    <color name="TextWeather">#B3C902EA</color>
 </resources>

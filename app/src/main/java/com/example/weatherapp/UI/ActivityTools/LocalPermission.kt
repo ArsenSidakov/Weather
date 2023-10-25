@@ -10,5 +10,4 @@ interface LocalPermission {
     fun checkPermission()
 
     fun checkLocation()
-
 }

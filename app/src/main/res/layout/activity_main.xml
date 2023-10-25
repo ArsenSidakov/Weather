@@ -43,7 +43,7 @@
                 android:backgroundTint="@color/CardWeather"
                 android:text="13/04/23 13:00"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/cityTextView"
                 app:layout_constraintStart_toStartOf="@+id/cityTextView"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Vladikavkazzz"
+                android:text="Vladikavkaz"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,12 +77,12 @@
                 android:id="@+id/tempTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="20dp"
                 android:text=" 20°C"
                 android:textColor="@color/white"
-                android:textSize="30sp"
+                android:textSize="48sp"
                 app:layout_constraintEnd_toEndOf="@+id/cityTextView"
-                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintHorizontal_bias="0.527"
                 app:layout_constraintStart_toStartOf="@+id/cityTextView"
                 app:layout_constraintTop_toBottomOf="@+id/regionTextView" />
 
@@ -93,6 +93,7 @@
                 android:layout_marginTop="3dp"
                 android:text="USA"
                 android:textColor="@color/white"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/regionTextView"
                 app:layout_constraintStart_toStartOf="@+id/regionTextView"
                 app:layout_constraintTop_toBottomOf="@+id/regionTextView" />
@@ -104,6 +105,7 @@
                 android:layout_marginTop="5dp"
                 android:text="filling : 16°C"
                 android:textColor="@color/white"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/tempTextView"
                 app:layout_constraintStart_toStartOf="@+id/tempTextView"
                 app:layout_constraintTop_toBottomOf="@+id/tempTextView" />
@@ -160,6 +162,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Sunny"
                 android:textColor="@color/white"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="@+id/imWeatherLive"
                 app:layout_constraintStart_toStartOf="@+id/imWeatherLive"
                 app:layout_constraintTop_toBottomOf="@+id/imWeatherLive" />
@@ -220,10 +223,10 @@
         android:id="@+id/cardView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="175dp"
+        android:layout_marginStart="80dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="40dp"
-        app:cardBackgroundColor="@color/ButtonWeather"
+        app:cardBackgroundColor="@color/ItemsWeather"
         app:cardCornerRadius="15dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
@@ -241,6 +244,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@null"
+                android:outlineAmbientShadowColor="@color/design_default_color_primary_dark"
+                android:outlineSpotShadowColor="@color/white"
                 android:src="@android:drawable/ic_menu_search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -253,9 +258,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click to search"
+        android:text="Search"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="#85019C"
+        android:textColor="@color/TextWeather"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="@+id/cardView4"
@@ -263,6 +268,51 @@
         app:layout_constraintStart_toStartOf="@+id/cardView4"
         app:layout_constraintTop_toBottomOf="@+id/cardView4"
         app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        app:cardBackgroundColor="@color/ItemsWeather"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/cardView4"
+        app:layout_constraintTop_toTopOf="@+id/cardView4"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/imUpdate"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@null"
+                android:src="@android:drawable/ic_popup_sync"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:textColor="@color/TextWeather"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/cardView5"
+        app:layout_constraintStart_toStartOf="@+id/cardView5"
+        app:layout_constraintTop_toBottomOf="@+id/cardView5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

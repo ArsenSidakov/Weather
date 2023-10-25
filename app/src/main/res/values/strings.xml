@@ -2,8 +2,16 @@
     <string name="app_name">WeatherApp</string>
     <string name="keyRetrofit">760c5b3181a44540b42142447230405</string>
     <string name="keyIntent">hours</string>
-    <string name="feels_like">Feels like: </string>
+    <string name="feels_like">Feels like:  </string>
     <string name="humidity">Humidity: </string>
     <string name="wind_speed">Wind speed: </string>
     <string name="last_Update">Last Update: </string>
+    <string name="location_ON">Геолокация выключена! </string>
+    <string name="permission_ON">Доступ к геолокации разрешен! </string>
+    <string name="enable_location">Определение местоположения </string>
+    <string name="location_on_answer">Вы хотите включить геолокацию? </string>
+    <string name="City_name">Введите название города </string>
+    <string name="OK">OK </string>
+    <string name="Cancel">Cancel </string>
+
 </resources>
